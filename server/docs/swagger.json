@@ -1,0 +1,137 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Health Check API",
+        "contact": {},
+        "license": {
+            "name": "MIT",
+            "url": "http://opensource.org/licenses/MIT"
+        }
+    },
+    "paths": {
+        "/.well-known": {
+            "get": {
+                "description": "List of services and docs endpoint",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "List of services and docs endpoint",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/main.Wellknown"
+                        }
+                    }
+                }
+            }
+        },
+        "/health": {
+            "get": {
+                "description": "Aggregated health check for the Health Check API",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Aggregated health check",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/main.HealthzAggregated"
+                        }
+                    }
+                }
+            }
+        },
+        "/health/{service}": {
+            "get": {
+                "description": "Health check for a specific service",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Health check for a specific service",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Service name",
+                        "name": "service",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/main.Healthz"
+                        }
+                    },
+                    "404": {
+                        "description": "service not found",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/healthz": {
+            "get": {
+                "description": "Health check for the Health Check API",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Health check",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/main.Healthz"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "main.Healthz": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string"
+                },
+                "status": {
+                    "type": "string"
+                }
+            }
+        },
+        "main.HealthzAggregated": {
+            "type": "object",
+            "properties": {
+                "components": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "$ref": "#/definitions/main.Healthz"
+                    }
+                },
+                "status": {
+                    "type": "string"
+                }
+            }
+        },
+        "main.Wellknown": {
+            "type": "object",
+            "properties": {
+                "docs": {
+                    "type": "string"
+                },
+                "services": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        }
+    }
+}
