@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState } from "react";
+import { FC, createContext, useContext, useState } from "react";
 import { Service } from "../types";
 
 interface ServiceContextType {
@@ -6,11 +6,12 @@ interface ServiceContextType {
   toggleService: (serviceId: string) => void;
   services: Service[];
   setServices: (services: Service[]) => void;
+  setSelectedServices: (selectedServices: Set<string>) => void;
 }
 
 const ServiceContext = createContext<ServiceContextType | undefined>(undefined);
 
-export const ServiceProvider: React.FC<{ children: React.ReactNode }> = ({
+export const ServiceProvider: FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [selectedServices, setSelectedServices] = useState<Set<string>>(
@@ -18,13 +19,13 @@ export const ServiceProvider: React.FC<{ children: React.ReactNode }> = ({
   );
   const [services, setServices] = useState<Service[]>([]);
 
-  const toggleService = (serviceId: string) => {
+  const toggleService = (serviceName: string) => {
     setSelectedServices((prev) => {
       const newSet = new Set(prev);
-      if (newSet.has(serviceId)) {
-        newSet.delete(serviceId);
+      if (newSet.has(serviceName)) {
+        newSet.delete(serviceName);
       } else {
-        newSet.add(serviceId);
+        newSet.add(serviceName);
       }
       return newSet;
     });
@@ -37,6 +38,7 @@ export const ServiceProvider: React.FC<{ children: React.ReactNode }> = ({
         toggleService,
         services,
         setServices,
+        setSelectedServices,
       }}
     >
       {children}

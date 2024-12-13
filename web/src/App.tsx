@@ -1,9 +1,9 @@
-import { useEffect } from "react";
+import { useEffect, FC } from "react";
 import { ServiceProvider } from "./contexts/ServiceContext";
-import { Dashboard } from "./components/Dashboard/Dashboard";
+import Dashboard from "./components/Dashboard";
 import { SharedServiceState } from "./types";
 
-const App: React.FC = () => {
+const App: FC = () => {
   useEffect(() => {
     // Handle shared state from URL
     const params = new URLSearchParams(window.location.search);

@@ -39,12 +39,6 @@ export const useServicePolling = (interval: number = 5000) => {
 };
 
 const notifyStatusChange = (service: Service) => {
-  console.log(
-    "@Debug: ",
-    "Notification" in window,
-    Notification.permission === "granted"
-  );
-
   if ("Notification" in window && Notification.permission === "granted") {
     new Notification(`Service Status Changed!`, {
       body: `${service.name} service is now ${service.status}`,
